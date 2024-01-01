@@ -49,8 +49,6 @@ void show(vector<int> numbers) {
 
 void sort_with_heap_sort(vector<int> &numbers) {
     build_max_heap(numbers);
-    show(numbers);
-    cout << "\n\n\n\n";
     int N = numbers.size();
     for(int i = N - 1; i > 0; i--) {
         swap(numbers[0], numbers[i]);
@@ -58,9 +56,33 @@ void sort_with_heap_sort(vector<int> &numbers) {
     }
 }
 
+int find_with_binary_search(int target, vector<int> &numbers) {
+    int N = numbers.size();
+    int end = numbers.size() - 1;
+    int start = 0;
+    int mid = (start + end) / 2;
+    int i = -1;
+
+    while (start <= end) {
+        if(target > numbers[mid]) {
+            start = mid+1;
+        } else if(target < numbers[mid]) {
+            end = mid - 1;
+        } else {
+            i = mid;
+            break;
+        }
+        mid = (end + start) / 2;
+    }
+    return i;
+
+}
+
 int main() {
     vector<int> a = {1, 5, 88, 34, -1, 3, 2, 1990};
-    /* sort_with_insertion_sort(a); */
-    sort_with_heap_sort(a);
+    sort_with_insertion_sort(a);
     show(a);
+    /* sort_with_heap_sort(a); */
+    cout << find_with_binary_search(88, a) << endl;
+    /* show(a); */
 }
