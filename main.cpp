@@ -1,9 +1,53 @@
+#include <exception>
 #include <iostream>
+#include <set>
+#include <stdexcept>
 #include <vector>
 using namespace::std;
 
+struct graph_node {
+    bool marked = false;
+    vector<graph_node*> neighbors;
+};
+
+class GraphQueue {
+public:
+    struct queue_node {
+        graph_node* g_node;
+        queue_node *next;
+    };
+    queue_node* front = NULL;
+    queue_node* rear = NULL;
+    void add(graph_node* g_node) {
+        queue_node *new_node = new(queue_node);
+        new_node->g_node = g_node;
+        if(rear != NULL) {
+            rear->next = new_node;
+        }
+        rear = new_node;
+        if(front == NULL) {
+            front = new_node;
+        }
+    }
+    graph_node* shift() {
+        if(front == NULL) {
+            throw std::logic_error("No element in the queue");
+        }
+        queue_node *new_front = front->next;
+        graph_node* g_node = front->g_node;
+        delete(front);
+        front = new_front;
+        return g_node;
+    }
+};
+
 void clearScreen() {
     cout << "\033[2J\033[1;1H";
+}
+
+void perform_bfs() {
+    set<int> marked;
+
 }
 
 void sort_with_insertion_sort(vector<int> &numbers) {
@@ -79,10 +123,10 @@ int find_with_binary_search(int target, vector<int> &numbers) {
 }
 
 int main() {
-    vector<int> a = {1, 5, 88, 34, -1, 3, 2, 1990};
-    sort_with_insertion_sort(a);
-    show(a);
+    /* vector<int> a = {1, 5, 88, 34, -1, 3, 2, 1990}; */
+    /* sort_with_insertion_sort(a); */
+    /* show(a); */
     /* sort_with_heap_sort(a); */
-    cout << find_with_binary_search(88, a) << endl;
+    /* cout << find_with_binary_search(88, a) << endl; */
     /* show(a); */
 }
