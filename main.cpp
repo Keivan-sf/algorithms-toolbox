@@ -4,6 +4,8 @@
 #include <stdexcept>
 #include <string>
 #include <vector>
+#include "./infix_parser.hpp"
+
 using namespace::std;
 
 struct graph_node {
@@ -181,4 +183,5 @@ int main() {
     /*  */
     /* nodes[6].neighbors.push_back(&nodes[2]); */
     /* cout << perform_bfs(&nodes[0]) << endl; */
+    cout << "hello there" << endl;
 }
