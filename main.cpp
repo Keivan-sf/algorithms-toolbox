@@ -4,7 +4,7 @@
 #include <stdexcept>
 #include <string>
 #include <vector>
-#include "./infix_parser.hpp"
+#include "./infix_parser.h"
 
 using namespace::std;
 
@@ -183,5 +183,6 @@ int main() {
     /*  */
     /* nodes[6].neighbors.push_back(&nodes[2]); */
     /* cout << perform_bfs(&nodes[0]) << endl; */
-    cout << "hello there" << endl;
+    cout << infixToPrefix("a+c/d*d") << endl;
+    cout << infixToPostfix("a+c/d*d") << endl;
 }
