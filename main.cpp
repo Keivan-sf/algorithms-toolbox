@@ -22,7 +22,45 @@ void show(vector<int> numbers) {
     }
 }
 
+char prompt_main_menu() {
+    cout << "--+ Welcome to the algorithms toolbox! +--\n\n"
+         << "1. Binary search\n"
+         << "2. BFS\n"
+         << "3. Sort\n"
+         << "4. Heapify\n"
+         << "5. Infix to prefix or postfix\n"
+         << "0. Exit\n\n"
+         << "Choose an item from menu above: ";
+    char c;
+    cin >> c;
+    return c;
+}
+
+void handle_sort_option() {
+    cout << "\n"
+         << "1. Insertion sort\n"
+         << "2. Heap sort\n\n"
+         << "Choose an item from menu above: ";
+    char c;
+    cin >> c;
+}
+
 int main() {
+    while(true) {
+        clearScreen();
+        char c = prompt_main_menu();
+        clearScreen();
+        switch (c) {
+        case '0':
+            return 0;
+        case '3':
+            handle_sort_option();
+            break;
+        }
+    }
+}
+
+int main2() {
     vector<int> a = {1, 5, 88, 34, -1, 3, 2, 1990};
     sort_with_insertion_sort(a);
     /* show(a) */
@@ -63,4 +101,6 @@ int main() {
 
     /* cout << infixToPrefix("a+c/d*d") << endl; */
     /* cout << infixToPostfix("a+c/d*d") << endl; */
+
+    return 0;
 }
