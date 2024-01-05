@@ -1,3 +1,4 @@
+#include <cstdio>
 #include <exception>
 #include <iostream>
 #include <set>
@@ -9,51 +10,24 @@
 #include "./binary_search.h"
 #include "./heap.h"
 #include "./insertion_sort.h"
+#include "./cli.h"
 
 using namespace::std;
-
-void clearScreen() {
-    cout << "\033[2J\033[1;1H";
-}
-
-void show(vector<int> numbers) {
-    for(auto i = numbers.begin(); i != numbers.end(); ++i) {
-        cout << *i << endl;
-    }
-}
-
-char prompt_main_menu() {
-    cout << "--+ Welcome to the algorithms toolbox! +--\n\n"
-         << "1. Binary search\n"
-         << "2. BFS\n"
-         << "3. Sort\n"
-         << "4. Heapify\n"
-         << "5. Infix to prefix or postfix\n"
-         << "0. Exit\n\n"
-         << "Choose an item from menu above: ";
-    char c;
-    cin >> c;
-    return c;
-}
-
 void handle_sort_option() {
-    cout << "\n"
-         << "1. Insertion sort\n"
-         << "2. Heap sort\n\n"
-         << "Choose an item from menu above: ";
-    char c;
-    cin >> c;
+    prompt_menu(menus["sort"]);
 }
 
 int main() {
+    string error = "";
     while(true) {
         clearScreen();
-        char c = prompt_main_menu();
+        int i = prompt_menu(menus["main"]);
         clearScreen();
-        switch (c) {
-        case '0':
+        error = "";
+        switch (i) {
+        case 0:
             return 0;
-        case '3':
+        case 4:
             handle_sort_option();
             break;
         }
