@@ -102,13 +102,15 @@ string trim(string &s) {
     return result;
 }
 
-vector_prompt_result prompt_vector() {
+vector_prompt_result prompt_vector(string message) {
     string error = "";
     while(true) {
         vector<int> result;
         clearScreen();
-        cout << "\nPlease enter your numbers separated via comma (\033[33m,\033[0m) or type \033[33mb\033[0m to get back to menu\n\n";
-        cout << "E.g: \033[33m1, 2, 3, 4, 5, 6, 12, 45, -12, 102\033[0m\n";
+        cout << "\n";
+        if(message.size() > 0) cout << message << "\n";
+        cout << "You can type \033[33mb\033[0m to get back to menu\n";
+
         if(error.size() > 0) cout << "\n\033[31m" << error << "\033[0m" << "\n";
         error = "";
         cout << "\n-> ";
@@ -136,5 +138,29 @@ vector_prompt_result prompt_vector() {
         if(error.size() > 0) continue;
         string a = "";
         return vector_prompt_result{.vec = result};
+    }
+}
+
+int_prompt_result prompt_int(string message) {
+    string error = "";
+    while(true) {
+        clearScreen();
+        cout << "\n";
+        if(message.size() > 0) cout << message << "\n";
+        cout << "You can type \033[33mb\033[0m to get back to menu" << "\n";
+        if(error.size() > 0) cout << "\n\033[31m" << error << "\033[0m" << "\n";
+        error = "";
+        cout << "\n-> ";
+        string num;
+        cin >> num;
+        num = trim(num);
+        if(num == "b") {
+            return int_prompt_result{.back=true};
+        }
+        if(!is_valid_int(num, num.size())) {
+            error = num + " is not a valid inteager!";
+            continue;
+        }
+        return int_prompt_result {.number = stoi(num)};
     }
 }

@@ -35,12 +35,21 @@ string handle_sort_option() {
     }
 }
 
-void handle_binary_search_option() {
+string handle_binary_search_option() {
     string output = "";
-    while(true) {
-        vector_prompt_result res = prompt_vector();
-        if(res.back) return;
+    int_prompt_result target_res = prompt_int("Please enter your target");
+    if(target_res.back) return output;
+    vector_prompt_result array_res = prompt_vector();
+    if(array_res.back) return output;
+    sort_with_heap_sort(array_res.vec);
+    int index = find_with_binary_search(target_res.number, array_res.vec);
+    output += "The sorted version of array is: " + join(array_res.vec, ", ") + "\n";
+    if(index == -1) {
+        output += to_string(target_res.number) + " doesn't exist in the array";
+    } else {
+        output += "And the position of " + to_string(target_res.number) + " is: " + to_string(index+1);
     }
+    return output;
 }
 
 int main() {
@@ -51,13 +60,17 @@ int main() {
         clearScreen();
         output = "";
         switch (i) {
-            case 0:
+            case 0: {
                 return 0;
-            case 1:
-                return 0;
-            case 4:
+            }
+            case 1: {
+                output = handle_binary_search_option();
+                break;
+            }
+            case 4: {
                 output = handle_sort_option();
                 break;
+            }
         }
     }
 }
