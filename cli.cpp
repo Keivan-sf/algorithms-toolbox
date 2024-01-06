@@ -21,9 +21,20 @@ void clearScreen() {
     cout << "\033[2J\033[1;1H";
 }
 
+string join(vector<int> numbers, string separator) {
+    if(numbers.begin() == numbers.end()) return "";
+    string result = to_string(*numbers.begin());
+    for(auto i = numbers.begin() + 1; i != numbers.end(); ++i) {
+        result += separator + to_string(*i);
+    }
+    return result;
+}
+
 void show(vector<int> numbers) {
-    for(auto i = numbers.begin(); i != numbers.end(); ++i) {
-        cout << *i << endl;
+    if(numbers.begin() == numbers.end()) return;
+    cout << *numbers.begin();
+    for(auto i = numbers.begin() + 1; i != numbers.end(); ++i) {
+        cout << "," << *i;
     }
 }
 
@@ -39,7 +50,8 @@ bool is_valid_int(string input, int n) {
     return true;
 }
 
-int prompt_menu(Menu menu, string error) {
+int prompt_menu(Menu menu, string output) {
+    string error = "";
     vector<string> &items = menu.items;
     int max = items.size() - 1;
     while(true) {
@@ -52,6 +64,11 @@ int prompt_menu(Menu menu, string error) {
         if(error.size() > 0) {
             cout << "\n\033[31m" << error << "\033[0m" << "\n";
         }
+
+        if(output.size() > 0) {
+            cout << "\n\033[32m" << output << "\033[0m" << "\n";
+        }
+
         error = "";
         cout << "\nPlease choose an item: ";
         string c;

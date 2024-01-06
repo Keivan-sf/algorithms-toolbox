@@ -17,10 +17,11 @@ extern map<string, Menu> menus;
 void clearScreen();
 
 void show(vector<int> numbers);
+string join(vector<int> numbers, string separator);
 
 bool is_valid_int(string input, int n);
 
-int prompt_menu(Menu menu, string error = "");
+int prompt_menu(Menu menu, string ouput = "");
 
 struct vector_prompt_result {
     bool back = false;

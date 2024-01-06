@@ -15,24 +15,24 @@
 
 using namespace::std;
 void handle_sort_option() {
+    string output = "";
     while(true) {
-        int i = prompt_menu(menus["sort"]);
+        int i = prompt_menu(menus["sort"], output);
         if(i == 0) return;
         vector_prompt_result res = prompt_vector();
         if(res.back) continue;
         switch (i) {
             case 1: {
+                sort_with_insertion_sort(res.vec);
+                output = "Sorted array: " + join(res.vec, ", ");
                 break;
             }
             case 2: {
+                sort_with_heap_sort(res.vec);
+                output = "Sorted array: " + join(res.vec, ", ");
                 break;
             }
         }
-        for(auto i: res.vec) {
-            cout << i << endl;
-        }
-        cout << "good input" << endl;
-        sleep(2);
     }
 }
 
