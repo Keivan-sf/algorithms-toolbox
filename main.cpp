@@ -14,40 +14,49 @@
 #include "./cli.h"
 
 using namespace::std;
-void handle_sort_option() {
-    string output = "";
+string handle_sort_option() {
     while(true) {
-        int i = prompt_menu(menus["sort"], output);
-        if(i == 0) return;
+        int i = prompt_menu(menus["sort"]);
+        if(i == 0) return "";
         vector_prompt_result res = prompt_vector();
         if(res.back) continue;
         switch (i) {
             case 1: {
                 sort_with_insertion_sort(res.vec);
-                output = "Sorted array: " + join(res.vec, ", ");
-                break;
+                string output = "Sorted array: " + join(res.vec, ", ");
+                return output;
             }
             case 2: {
                 sort_with_heap_sort(res.vec);
-                output = "Sorted array: " + join(res.vec, ", ");
-                break;
+                string output = "Sorted array: " + join(res.vec, ", ");
+                return output;
             }
         }
     }
 }
 
+void handle_binary_search_option() {
+    string output = "";
+    while(true) {
+        vector_prompt_result res = prompt_vector();
+        if(res.back) return;
+    }
+}
+
 int main() {
-    string error = "";
+    string output = "";
     while(true) {
         clearScreen();
-        int i = prompt_menu(menus["main"]);
+        int i = prompt_menu(menus["main"], output);
         clearScreen();
-        error = "";
+        output = "";
         switch (i) {
             case 0:
                 return 0;
+            case 1:
+                return 0;
             case 4:
-                handle_sort_option();
+                output = handle_sort_option();
                 break;
         }
     }
