@@ -4,6 +4,7 @@
 #include <set>
 #include <stdexcept>
 #include <string>
+#include <unistd.h>
 #include <vector>
 #include "./infix_parser.h"
 #include "./bfs.h"
@@ -14,7 +15,25 @@
 
 using namespace::std;
 void handle_sort_option() {
-    prompt_menu(menus["sort"]);
+    while(true) {
+        int i = prompt_menu(menus["sort"]);
+        if(i == 0) return;
+        vector_prompt_result res = prompt_vector();
+        if(res.back) continue;
+        switch (i) {
+            case 1: {
+                break;
+            }
+            case 2: {
+                break;
+            }
+        }
+        for(auto i: res.vec) {
+            cout << i << endl;
+        }
+        cout << "good input" << endl;
+        sleep(2);
+    }
 }
 
 int main() {
@@ -25,11 +44,11 @@ int main() {
         clearScreen();
         error = "";
         switch (i) {
-        case 0:
-            return 0;
-        case 4:
-            handle_sort_option();
-            break;
+            case 0:
+                return 0;
+            case 4:
+                handle_sort_option();
+                break;
         }
     }
 }
