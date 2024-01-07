@@ -58,6 +58,14 @@ string handle_bfs_option() {
     return output;
 }
 
+string handle_heapify_option() {
+    vector_prompt_result array_res = prompt_vector() ;
+    if(array_res.back) return "";
+    build_max_heap(array_res.vec);
+    string output = "Heapified array: " + join(array_res.vec, ", ");
+    return output;
+}
+
 int main() {
     string output = "";
     while(true) {
@@ -75,6 +83,10 @@ int main() {
             }
             case 2: {
                 output = handle_bfs_option();
+                break;
+            }
+            case 3: {
+                output = handle_heapify_option();
                 break;
             }
             case 4: {
