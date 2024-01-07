@@ -34,6 +34,71 @@ int get_operator_value(char c) {
     }
 }
 
+bool hasCorrectBrackets(const string &infix) {
+    int bracketSum = 0;
+    for (unsigned int idx = 0; idx < infix.length(); idx++) {
+        if (infix[idx] == '(')
+            ++bracketSum;
+        if (infix[idx] == ')')
+            --bracketSum;
+        if(bracketSum < 0) {
+            return false;
+        }
+    }
+    return (bracketSum == 0);
+}
+
+bool hasNoPairedBrackets(const string &infix) {
+    for (int idx = 0; idx < infix.length() - 1; idx++) {
+        if(infix[idx] == ')' && infix[idx+1] == '(') {
+            return false;
+        }
+        if(infix[idx] == '(' && infix[idx+1] == ')') {
+            return false;
+        }
+    }
+    return true;
+}
+
+bool hasNoPairedOperators(const string &infix) {
+    for (int idx = 0; idx < infix.length() - 1; idx++) {
+        if(get_operator_value(infix[idx]) && get_operator_value(infix[idx+1])) {
+            return false;
+        }
+    }
+    return true;
+}
+
+bool hasNoUnusedOperators(const string &infix) {
+    for (int idx = 0; idx < infix.length(); idx++) {
+        if(get_operator_value(infix[idx])) {
+            if(idx < 1 || idx > infix.length() - 2) {
+                return false;
+            }
+            if(infix[idx - 1] == '(' || infix[idx + 1] == ')') {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+bool hasNoUnusedVariables(const string &infix) {
+    for (int idx = 0; idx < infix.length(); idx++) {
+        if(!get_operator_value(infix[idx]) && infix[idx] != ')' && infix[idx] != '(') {
+            if(idx > 0) {
+                if(infix[idx-1] == ')' ) return false;
+                if(!get_operator_value(infix[idx-1]) && infix[idx-1] != '(') return false;
+            }
+            if(idx < infix.length() - 1) {
+                if(infix[idx + 1] == '(') return false;
+                if(!get_operator_value(infix[idx+1]) && infix[idx+1] != ')') return false;
+            }
+        }
+    }
+    return true;
+}
+
 In::InOrChar resolve(string& s, int& start, bool must_return = true) {
     In::InOrChar first;
     In::InOrChar second;
@@ -136,4 +201,10 @@ string infixToPrefix(string infix) {
 string infixToPostfix(string infix) {
     In::InOrChar parsed = parse(infix);
     return infixToPostfixString(parsed);
+}
+
+bool is_valid_infix(string &infix) {
+    cout <<infix << endl;
+    cout << hasCorrectBrackets(infix) << hasNoPairedBrackets(infix) << hasNoPairedOperators(infix) && hasNoUnusedOperators(infix) && hasNoUnusedVariables(infix);
+    return hasCorrectBrackets(infix) && hasNoPairedBrackets(infix) && hasNoPairedOperators(infix) && hasNoUnusedOperators(infix) && hasNoUnusedVariables(infix);
 }

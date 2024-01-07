@@ -9,13 +9,15 @@
 #include <map>
 #include <sstream>
 #include "./cli.h"
+#include "./infix_parser.h"
 #include "bfs.h"
 
 using namespace std;
 
 map<string, Menu> menus {
     {"main", Menu{.title= "--+ Welcome to the algorithms toolbox! +--", .items = {"Binary search", "BFS", "Heapify", "Sort", "Infix to prefix or postfix", "Exit"}}},
-    {"sort", Menu{.title= "Sorting", .items = {"Insertion sort", "Heap sort", "Back to main menu"}}}
+    {"sort", Menu{.title= "Sorting", .items = {"Insertion sort", "Heap sort", "Back to main menu"}}},
+    {"infix", Menu{.title= "Infix Conversion", .items = {"To prefix", "To postfix", "Back to main menu"}}},
 };
 
 void clearScreen() {
@@ -163,6 +165,44 @@ int_prompt_result prompt_int(string message) {
             continue;
         }
         return int_prompt_result {.number = stoi(num)};
+    }
+}
+
+string remove_all_spaces(string &s) {
+    string result = "";
+    for (int i = 0; i<s.size(); i++) {
+        if(!isspace(s[i])) {
+            result += s[i];
+        }
+    }
+    return result;
+}
+
+infix_prompt_result prompt_infix_string(string message) {
+    string error = "";
+    while(true) {
+        clearScreen();
+        cout << "\n";
+        if(message.size() > 0) cout << message << "\n";
+        cout << "You can type \033[33mb\033[0m to get back to menu" << "\n";
+        if(error.size() > 0) cout << "\n\033[31m" << error << "\033[0m" << "\n";
+        error = "";
+        cout << "\n-> ";
+        getchar();
+        string infix;
+        char char_input[1000];
+        fgets(char_input, 1000, stdin);
+        infix = char_input;
+        infix = trim(infix);
+        if(infix == "b") {
+            return infix_prompt_result{.back=true};
+        }
+        infix = remove_all_spaces(infix);
+        if(!is_valid_infix(infix)) {
+            error = "The infix expression is invalid, please enter a valid expression";
+            continue;
+        }
+        return infix_prompt_result {.s = infix};
     }
 }
 

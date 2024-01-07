@@ -66,6 +66,18 @@ string handle_heapify_option() {
     return output;
 }
 
+string handle_infix_conversion() {
+    int i = prompt_menu(menus["infix"]);
+    if(i == 0) return "";
+    infix_prompt_result infix_res = prompt_infix_string();
+    if(infix_res.back) return "";
+    if(i == 1) {
+        return infixToPrefix(infix_res.s);
+    } else {
+        return infixToPostfix(infix_res.s);
+    }
+}
+
 int main() {
     string output = "";
     while(true) {
@@ -91,6 +103,10 @@ int main() {
             }
             case 4: {
                 output = handle_sort_option();
+                break;
+            }
+            case 5: {
+                output = handle_infix_conversion();
                 break;
             }
         }

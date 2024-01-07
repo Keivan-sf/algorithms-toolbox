@@ -17,5 +17,6 @@ struct In {
 
 string infixToPrefix(string infix);
 string infixToPostfix(string infix);
+bool is_valid_infix(string &infix);
 
 #endif
