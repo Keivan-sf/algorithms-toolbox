@@ -1,6 +1,7 @@
 #ifndef cli
 #define cli
 
+#include "bfs.h"
 #include <iostream>
 #include <vector>
 #include <map>
@@ -35,5 +36,6 @@ struct int_prompt_result {
 
 vector_prompt_result prompt_vector(string message = "Please enter your numbers separated via comma (\033[33m,\033[0m)\n\nE.g: \033[33m1, 2, 3, 4, 5, 6, 12, 45, -12, 102\033[0m\n");
 int_prompt_result prompt_int(string message = "Please enter your number");
+graph_node* prompt_graph(string message = "");
 
 #endif

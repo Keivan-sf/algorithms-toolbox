@@ -9,6 +9,7 @@
 #include <map>
 #include <sstream>
 #include "./cli.h"
+#include "bfs.h"
 
 using namespace std;
 
@@ -162,5 +163,88 @@ int_prompt_result prompt_int(string message) {
             continue;
         }
         return int_prompt_result {.number = stoi(num)};
+    }
+}
+
+void addEdge(int a, int b, map<int,graph_node *> &nodes) {
+    if(nodes.find(a) == nodes.end()) {
+        nodes[a] = new graph_node();
+        nodes[a] -> data = a;
+    }
+    if(nodes.find(b) == nodes.end()) {
+        nodes[b] = new graph_node();
+        nodes[b] -> data = b;
+    }
+    nodes[a]->neighbors.push_back(nodes[b]);
+    nodes[b]->neighbors.push_back(nodes[a]);
+}
+
+graph_node* prompt_graph(string message) {
+    clearScreen();
+    cout << "\nPlease enter edges in the following format: \033[33mX Y\033[0m (X and Y must be positive inteagers and separated via space)\n"
+         << "E.g: \033[33m1 2\033[0m\n\n"
+         << "Type \033[33mb\033[0m when you are finished\n\n";
+    getchar();
+    int edge_number = 1;
+    map<int,graph_node *> nodes;
+    while(true) {
+        string edge;
+        cout << "Enter edge #" << edge_number<< ": ";
+        char char_input[1000];
+        fgets(char_input, 1000, stdin);
+        edge = char_input;
+        edge = trim(edge);
+        if(edge == "b") {
+            if(edge_number == 1) {
+                cout << "\n\033[33mYou have not entered any edges yet thus you may not go to the next menu. The command is ignored\033[0m\n\n";
+                edge = "";
+                continue;
+            }
+            break;
+        }
+        string a="", b="";
+        bool space_found = false;
+        for(int i =0; i<edge.size(); i++) {
+            if(space_found) {
+                b+= edge[i];
+            } else if(isspace(edge[i])) {
+                space_found = true;
+            } else {
+                a += edge[i];
+            }
+        }
+        if(!is_valid_int(a, a.size()) || !is_valid_int(b, b.size())) {
+            cout << "\n\033[33mInvalid input format, The edge is ignored\033[0m\n\n";
+            edge = "";
+            continue;
+        }
+        int first_node = stoi(a), second_node = stoi(b);
+        if(first_node < 1 || second_node < 1) {
+            cout << "\n\033[33mNode numbers must be positive numbers\033[0m\n\n";
+            edge = "";
+            continue;
+        }
+        edge_number++;
+        addEdge(first_node, second_node, nodes);
+        cout << "\n";
+        // add!
+    }
+    string error = "";
+    while(true) {
+        clearScreen();
+        cout << "\nEnter a starting node: \n";
+        if(error.size() > 0) {
+            cout << "\n\033[31m" << error << "\033[0m" << "\n";
+            error = "";
+        }
+        cout << "\n->";
+        string s;
+        cin >> s;
+        s = trim(s);
+        if(!is_valid_int(s, s.size()) || nodes.find(stoi(s)) == nodes.end()) {
+            error = "You haven't defined any edge for such node";
+            continue;
+        }
+        return nodes[stoi(s)];
     }
 }

@@ -52,6 +52,12 @@ string handle_binary_search_option() {
     return output;
 }
 
+string handle_bfs_option() {
+    graph_node* main_node = prompt_graph();
+    string output = perform_bfs(main_node);
+    return output;
+}
+
 int main() {
     string output = "";
     while(true) {
@@ -65,6 +71,10 @@ int main() {
             }
             case 1: {
                 output = handle_binary_search_option();
+                break;
+            }
+            case 2: {
+                output = handle_bfs_option();
                 break;
             }
             case 4: {
